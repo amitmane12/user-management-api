@@ -20,3 +20,6 @@ steps followd:
     `npx tsc --init`
 
     `npm i -D tsx`
+
+3. install dotenv
+    `npm i -D dotenv`

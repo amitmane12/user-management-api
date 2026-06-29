@@ -1,13 +1,20 @@
-import express from 'express'
+import type { Response } from "express";
+import app from "./app";
+import { env } from "./config/env.config";
+import connectDatabase from "./infrastructure/database/connect-database";
+const PORT = env.PORT;
 
-const app = express()
+const startServer = async (): Promise<void> => {
+    await connectDatabase();
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'hello ts with express',
-  })
-})
+    app.get("/health", (_, res: Response) => {
+        res.status(200).json({
+            message: "success",
+        });
+    });
+    app.listen(PORT, () => {
+        console.log(`app is listing on PORT: ${PORT}`);
+    });
+};
 
-app.listen(3000, () => {
-  console.log('app is listing on PORT: 3000 ')
-})
+startServer();
