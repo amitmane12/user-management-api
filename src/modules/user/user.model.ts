@@ -1,4 +1,5 @@
 import {
+    Model,
     model,
     Schema,
     type HydratedDocument,
@@ -52,11 +53,13 @@ const userSchema = new Schema(
         },
         profilePicture: {
             type: String,
+            nullable: true,
 
             //   default: 'default-profile-picture.png',
         },
         coverPhoto: {
             type: String,
+            nullable: true,
         },
         refreshToken: {
             type: String,
@@ -115,4 +118,5 @@ userSchema.methods.generateRefreshToken = function (
 
 export type UserType = InferSchemaType<typeof userSchema>;
 export type UserDocument = HydratedDocument<UserType, UserMethods>;
-export const User = model<UserType>("User", userSchema);
+type UserModel = Model<UserType, {}, UserMethods>;
+export const User = model<UserType, UserModel>("User", userSchema);
